@@ -3,7 +3,7 @@ import boto3
 import uuid
 
 dynamodb_resource = boto3.resource("dynamodb")
-table = dynamodb_resource.Table("users_dynamodb_table")  
+table = dynamodb_resource.Table("users-30144999")  
 
 def handler(event, context):
     data = json.loads(event["body"])

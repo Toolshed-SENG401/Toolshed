@@ -21,12 +21,13 @@ def test_write_into_table():
     table = dynamodb.create_table(
         TableName = table_name, 
         KeySchema = [{'AttributeName': 'date', 'KeyType': 'HASH'}],
-        AttributeDefinitions = [{'AttributeName': 'date', 'AttributeType': 'S'}],                      
+        AttributeDefinitions = [{'AttributeName': 'date', 'AttributeType': 'S'}],     
+        ProvisionedThroughput={
+            'ReadCapacityUnits': 1,
+            'WriteCapacityUnits': 1
+        }                 
     )
-    ProvisionedThroughput={
-        'ReadCapacityUnits': 1,
-        'WriteCapacityUnits': 1
-    }
+    
     
     event = {"body": '{"name": "John Doe", "email": "john@example.com", "rating": 5, "bio": "Sample bio", "location": "Sample location"}'}
     context = {}

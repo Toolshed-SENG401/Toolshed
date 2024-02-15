@@ -13,22 +13,22 @@ def aws_credentials():
     os.environ["AWS_SECURITY_TOKEN"] = "testing"
     os.environ["AWS_SESSION_TOKEN"] = "testing"
 
-@mock_aws
-def test_write_into_table():
+@pytest.fixture
+def dynamodb_mock(aws_credentials):
+    with mock_aws():
+        yield boto3.resource('dynamodb', region_name='ca-central-1')
+
+def test_write_into_table(dynamodb_mock):
     "Tests writing to DynamoDB table with valid input"
-    dynamodb = boto3.resource('dynamodb', region_name='ca-central-1') 
     table_name = 'users-30144999'
-    table = dynamodb.create_table(
+    dynamodb_mock.create_table(
         TableName = table_name, 
-        KeySchema = [{'AttributeName': 'date', 'KeyType': 'HASH'}],
-        AttributeDefinitions = [{'AttributeName': 'date', 'AttributeType': 'S'}],     
-        ProvisionedThroughput={
-            'ReadCapacityUnits': 1,
-            'WriteCapacityUnits': 1
-        }                 
+        KeySchema = [{'AttributeName': 'userID', 'KeyType': 'HASH'}],
+        AttributeDefinitions = [{'AttributeName': 'userID', 'AttributeType': 'S'}],     
+        ProvisionedThroughput={'ReadCapacityUnits': 1, 'WriteCapacityUnits': 1}
     )
-    
-    
+
+    table = dynamodb_mock.Table(table_name)
     event = {"body": '{"name": "John Doe", "email": "john@example.com", "rating": 5, "bio": "Sample bio", "location": "Sample location"}'}
     context = {}
     response = handler(event, context)

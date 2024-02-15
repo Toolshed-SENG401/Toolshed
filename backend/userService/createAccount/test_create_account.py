@@ -2,7 +2,6 @@ from main import *
 import pytest
 from moto import mock_aws
 import boto3
-import uuid
 
 @pytest.fixture
 def aws_credentials():
@@ -31,7 +30,7 @@ def test_write_into_table(dynamodb_mock):
     table = dynamodb_mock.Table(table_name)
     event = {"body": '{"name": "John Doe", "email": "john@example.com", "rating": 5, "bio": "Sample bio", "location": "Sample location"}'}
     context = {}
-    response = handler(event, context)
+    response = handler(event, context, table)
 
     assert response["statusCode"] == 200, "Status code should be 200 for successful execution"
     response = table.get_item(Key={'userID': json.loads(response['body'])['userID']})

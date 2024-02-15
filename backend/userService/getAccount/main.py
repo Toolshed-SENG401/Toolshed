@@ -3,7 +3,7 @@ import json
 import boto3
 
 dynamodb_resource = boto3.resource("dynamodb")
-table = dynamodb_resource.Table("users_dynamodb_table") 
+table = dynamodb_resource.Table("users-30144999") 
 
 def handler(event, context):
     email = event["headers"]["email"]

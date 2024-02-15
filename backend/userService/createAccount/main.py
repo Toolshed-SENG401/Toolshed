@@ -13,7 +13,7 @@ def handler(event, context, table=None):
     try:
         item={
             "userID": str(uuid.uuid4()),
-            "userName": data["name"],
+            "name": data["name"],
             "email": data["email"],
             "rating": data["rating"],
             "bio": data["bio"],

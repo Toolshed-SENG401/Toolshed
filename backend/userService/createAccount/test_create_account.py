@@ -17,7 +17,7 @@ def dynamodb_mock(aws_credentials):
     with mock_aws():
         yield boto3.resource('dynamodb', region_name='ca-central-1')
 
-def test_write_into_table(dynamodb_mock):
+def test_write_user_into_table(dynamodb_mock):
     "Tests writing to DynamoDB table with valid input"
     table_name = 'users-30144999'
     dynamodb_mock.create_table(
@@ -39,23 +39,4 @@ def test_write_into_table(dynamodb_mock):
     inserted_item = json.loads(event['body'])
     for key, value in inserted_item.items():
         assert item_in_table.get(key) == value, f"Value for key {key} does not match in the DynamoDB table"
-
-
-    
-
-
-
-# def test_getUser_existing_data(mock_dynamodb):
-#     mock_data = {
-#         "email": ,
-#         "name": "John Doe"
-#     } 
-#     mock_dynamodb.Table("users_dynamodb_table").put_item(Item=mock_data)
-
-#     event = {"headers": {"email": "john.doe@example.com"}}
-
-    
-
-
-
 

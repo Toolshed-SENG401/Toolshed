@@ -16,7 +16,7 @@ def aws_credentials():
 @mock_aws
 def test_write_into_table():
     "Tests writing to DynamoDB table with valid input"
-    dynamodb = boto3.resource('dynamodb') 
+    dynamodb = boto3.resource('dynamodb', region_name='ca-central-1') 
     table_name = 'users-30144999'
     table = dynamodb.create_table(
         TableName = table_name, 

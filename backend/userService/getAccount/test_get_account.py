@@ -2,6 +2,8 @@ from main import *
 import pytest
 from moto import mock_aws
 import boto3
+import uuid
+
 
 @pytest.fixture
 def aws_credentials():
@@ -30,7 +32,7 @@ def test_get_user_from_table(dynamodb_mock):
     table = dynamodb_mock.Table(table_name)
     table.put_item(
         Item={
-            "email": "john@example.com",
+            "userID": str(uuid.uuid4()),
             "name": "John Doe",
             "rating": 5,
             "bio": "Sample bio",

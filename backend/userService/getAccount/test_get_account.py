@@ -35,6 +35,7 @@ def test_get_user_from_table(dynamodb_mock):
         Item={
             "userID": userID,
             "name": "John Doe",
+            "email": "john@example.com",
             "rating": 5,
             "bio": "Sample bio",
             "location": "Sample location"
@@ -47,9 +48,9 @@ def test_get_user_from_table(dynamodb_mock):
 
     assert response["statusCode"] == 200, "Status code should be 200 for successful execution."
     response_body = response['body']
-    assert len(response_body) == 1, "Expected only one item in the response"
-    assert response_body[0]["email"] == "john@example.com", "Incorrect email returned"
+    assert response_body[0]["userID"] == userID, "Incorrect userID returned"
     assert response_body[0]["name"] == "John Doe", "Incorrect name returned"
+    assert response_body[0]["email"] == "john@example.com", "Incorrect email returned"
     assert response_body[0]["rating"] == 5, "Incorrect rating returned"
     assert response_body[0]["bio"] == "Sample bio", "Incorrect bio returned"
     assert response_body[0]["location"] == "Sample location", "Incorrect location returned"

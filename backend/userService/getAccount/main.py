@@ -2,10 +2,11 @@ from boto3.dynamodb.conditions import Key
 import json
 import boto3
 
-dynamodb_resource = boto3.resource("dynamodb", region_name='ca-central-1')
-table = dynamodb_resource.Table("users-30144999") 
 
-def handler(event, context):
+def handler(event, context, table=None):
+    if table is None:
+        dynamodb_resource = boto3.resource("dynamodb", region_name='ca-central-1')
+        table = dynamodb_resource.Table("users-30144999")  
     email = event["headers"]["email"]
     try:
         res = table.query(KeyConditionExpression=Key("email").eq(email))

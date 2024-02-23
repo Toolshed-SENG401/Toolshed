@@ -19,7 +19,7 @@ def dynamodb_mock(aws_credentials):
     with mock_aws():
         yield boto3.resource('dynamodb', region_name='ca-central-1')
 
-def test_get_user_from_table(aws_credentials, dynamodb_mock):
+def test_get_user_from_table(dynamodb_mock):
     "Tests getting from DynamoDB table with valid input"
     table_name = 'users-30144999'
     dynamodb_mock.create_table(
@@ -42,7 +42,7 @@ def test_get_user_from_table(aws_credentials, dynamodb_mock):
 
     event = {"headers": {"email": "john@example.com"}}
     context = {}
-    response = handler(event, context)
+    response = handler(event, context, table)
 
     assert response["statusCode"] == 200, "Status code should be 200 for successful execution."
     response_body = json.loads(response['body'])

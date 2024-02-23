@@ -13,28 +13,33 @@ def parse_event_body(event_body):
         return json.loads(event_body)
     return event_body
 
-def fetch_items_after_itemID(table_name, last_itemID, pageCount):
+def fetch_items_after_itemID(table_name, last_itemID, last_sortKeyValue, pageCount):
     table = get_dynamodb_table(table_name)
     scan_kwargs = {
         'Limit': pageCount
     }
 
-    if last_itemID != '':
-        scan_kwargs['ExclusiveStartKey'] = {'itemID': last_itemID}
+    if last_itemID != '' and last_sortKeyValue != '':
+        scan_kwargs['ExclusiveStartKey'] = {
+            'itemID': {'S': last_itemID},
+            'timestamp': {'N': last_sortKeyValue}
+        }
     
     response = table.scan(**scan_kwargs)
     return response.get('Items', [])
+
 
 def handler(event, context):
     try:
         headers = event.get("headers", {})
         
         last_itemID = headers.get('lastitemid', '')
+        last_sortKeyValue = headers.get('lasttimestamp', '') 
         pageCount = headers.get('pagecount', '10')
         pageCount = int(pageCount) 
         table_name = 'items-30144999'
         
-        items = fetch_items_after_itemID(table_name, last_itemID, pageCount)
+        items = fetch_items_after_itemID(table_name, last_itemID, last_sortKeyValue, pageCount)
         
         return {
             'statusCode': 200,

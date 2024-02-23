@@ -30,9 +30,10 @@ def test_get_user_from_table(dynamodb_mock):
     )
 
     table = dynamodb_mock.Table(table_name)
+    userID = str(uuid.uuid4())
     table.put_item(
         Item={
-            "userID": str(uuid.uuid4()),
+            "userID": userID,
             "name": "John Doe",
             "rating": 5,
             "bio": "Sample bio",
@@ -40,7 +41,7 @@ def test_get_user_from_table(dynamodb_mock):
         }
     )
 
-    event = {"headers": {"email": "john@example.com"}}
+    event = {"body": {"userID": userID}}
     context = {}
     response = handler(event, context, table)
 

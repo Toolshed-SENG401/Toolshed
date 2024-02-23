@@ -47,7 +47,7 @@ def test_get_user_from_table(dynamodb_mock):
     response = handler(event, context, table)
 
     assert response["statusCode"] == 200, "Status code should be 200 for successful execution."
-    response_body = response['body']
+    response_body = json.loads(response['body'])
     assert response_body[0]["userID"] == userID, "Incorrect userID returned"
     assert response_body[0]["name"] == "John Doe", "Incorrect name returned"
     assert response_body[0]["email"] == "john@example.com", "Incorrect email returned"

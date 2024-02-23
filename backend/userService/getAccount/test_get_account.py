@@ -19,7 +19,7 @@ def dynamodb_mock(aws_credentials):
     with mock_aws():
         yield boto3.resource('dynamodb', region_name='ca-central-1')
 
-def test_get_user_from_table(dynamodb_mock):
+def test_get_user_from_table(aws_credentials, dynamodb_mock):
     "Tests getting from DynamoDB table with valid input"
     table_name = 'users-30144999'
     dynamodb_mock.create_table(

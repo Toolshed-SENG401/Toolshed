@@ -22,8 +22,8 @@ def test_get_user_from_table(dynamodb_mock):
     table_name = 'users-30144999'
     dynamodb_mock.create_table(
         TableName = table_name, 
-        KeySchema = [{'AttributeName': 'email', 'KeyType': 'HASH'}],
-        AttributeDefinitions = [{'AttributeName': 'email', 'AttributeType': 'S'}],     
+        KeySchema = [{'AttributeName': 'userID', 'KeyType': 'HASH'}],
+        AttributeDefinitions = [{'AttributeName': 'userID', 'AttributeType': 'S'}],     
         ProvisionedThroughput={'ReadCapacityUnits': 1, 'WriteCapacityUnits': 1}
     )
 

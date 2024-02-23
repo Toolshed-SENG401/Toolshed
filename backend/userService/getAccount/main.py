@@ -1,6 +1,8 @@
 from boto3.dynamodb.conditions import Key
 import json
 import boto3
+from decimal import Decimal
+
 
 
 def handler(event, context, table=None):
@@ -12,6 +14,10 @@ def handler(event, context, table=None):
     try:
         res = table.query(KeyConditionExpression=Key("userID").eq(userID))
         items = res["Items"]
+        for item in items:
+            for key, value in item.items():
+                if isinstance(value, Decimal):
+                    item[key] = float(value)
         return {
             "statusCode": 200,
             "body": json.dumps(items)

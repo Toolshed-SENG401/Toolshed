@@ -7,9 +7,10 @@ def handler(event, context, table=None):
     if table is None:
         dynamodb_resource = boto3.resource("dynamodb", region_name='ca-central-1')
         table = dynamodb_resource.Table("users-30144999")  
-    email = event["headers"]["email"]
+    data = json.loads(event["body"])
+    userID = data["userID"]
     try:
-        res = table.query(KeyConditionExpression=Key("email").eq(email))
+        res = table.query(KeyConditionExpression=Key("userID").eq(userID))
         items = res["Items"]
         return {
             "statusCode": 200,

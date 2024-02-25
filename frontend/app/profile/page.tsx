@@ -1,8 +1,7 @@
-import React from "react";
 import PersonalDetails from "./components/PersonalDetails";
 import ContactDetails from "./components/ContactDetails";
-import Rating from "./components/Rating";
 import Biography from "./components/Biography";
+import RatingDetails from "./components/RatingDetails";
 
 export default function page() {
   return (
@@ -11,7 +10,7 @@ export default function page() {
       <PersonalDetails></PersonalDetails>
       <div className=" flex flex-col gap-8">
         <ContactDetails></ContactDetails>
-        <Rating></Rating>
+        <RatingDetails></RatingDetails>
       </div>
       <Biography></Biography>
     </div>

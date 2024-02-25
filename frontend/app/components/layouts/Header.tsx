@@ -63,14 +63,20 @@ function UserProfile({
           {sessionUser?.email}
         </span>
       </DropdownHeader>
-      <DropdownItem>My Profile</DropdownItem>
-      <DropdownItem>Requested Tools</DropdownItem>
-      <DropdownItem>Active Listings</DropdownItem>
-      <DropdownItem>Disputes</DropdownItem>
+      <Link href="profile">
+        <DropdownItem>My Profile</DropdownItem>
+      </Link>
+      <Link href="requested">
+        <DropdownItem>Requested Tools</DropdownItem>
+      </Link>
+      <Link href="listings">
+        <DropdownItem>Active Listings</DropdownItem>
+      </Link>
+      {/* <DropdownItem>Disputes</DropdownItem> */}
       <DropdownDivider />
-      <DropdownItem as="a" href="/api/auth/signout">
-        Sign out
-      </DropdownItem>
+      <Link href="/api/auth/signout">
+        <DropdownItem>Sign out</DropdownItem>
+      </Link>
     </Dropdown>
   );
 }

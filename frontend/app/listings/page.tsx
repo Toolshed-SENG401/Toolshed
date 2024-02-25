@@ -38,6 +38,7 @@ const SortListingsButton = () => {
 const ListingsContainer = () => {
   const listings = [
     {
+      itemID: 1,
       title: "Great Value Rising Crust Frozen Pizza, Supreme",
       location: "Calgary | 6 minutes ago",
       description:
@@ -45,6 +46,7 @@ const ListingsContainer = () => {
       image: "https://via.placeholder.com/120x120",
     },
     {
+      itemID: 2,
       title: "Great Value Rising Crust Frozen Pizza, Supreme",
       location: "Calgary | 6 minutes ago",
       description:
@@ -52,6 +54,7 @@ const ListingsContainer = () => {
       image: "https://via.placeholder.com/120x120",
     },
     {
+      itemID: 3,
       title: "Great Value Rising Crust Frozen Pizza, Supreme",
       location: "Calgary | 6 minutes ago",
       description:
@@ -59,6 +62,7 @@ const ListingsContainer = () => {
       image: "https://via.placeholder.com/120x120",
     },
     {
+      itemID: 4,
       title: "Great Value Rising Crust Frozen Pizza, Supreme",
       location: "Calgary | 6 minutes ago",
       description:
@@ -67,9 +71,11 @@ const ListingsContainer = () => {
     },
   ];
   return (
-    <ul className="flex flex-col gap-1 ">
+    <ul className="flex flex-col gap-3 ">
       <div className="flex flex-row justify-between items-center">
-        <div className="text-black text-2xl">Results 1-5 of 531</div>
+        <div className="text-black text-2xl">
+          Results 1-{listings.length} of {listings.length}
+        </div>
         <SortListingsButton />
         {/* <div className="p-2.5 rounded-xl border border-black flex-col justify-start items-start gap-px inline-flex">
           <div className="text-black text-base">Sort by</div>
@@ -78,33 +84,38 @@ const ListingsContainer = () => {
           </div>
         </div> */}
       </div>
-      {listings.map((listing) => (
-        <div
-          key={listing.title}
-          className=" rounded-lg border border-brand flex flex-row gap-4 p-4"
-        >
-          <Image
-            width={120}
-            height={120}
-            src={listing.image}
-            alt="listing Image"
-            className="rounded"
-          />
-          <div className=" flex flex-col gap-2">
-            <Link href="/">
-              <h1 className="text-gray-950 text-xl font-semibold">
-                {listing.title}
-              </h1>
+      <ul className="flex flex-col gap-1 ">
+        {listings.map((listing) => (
+          <li
+            key={listing.title}
+            className=" shadow rounded-lg border border-brand flex flex-row gap-4 p-4"
+          >
+            <Link href={`listings/${listing.itemID}`}>
+              <Image
+                width={120}
+                height={120}
+                src={listing.image}
+                alt="listing Image"
+                className="rounded"
+              />
             </Link>
 
-            <h2 className=" text-sm font-bold">{listing.location}</h2>
-            <h3 className=" text-gray-600 text-xs font-normal">
-              {listing.description}
-            </h3>
-          </div>
-          <FaRegHeart className=" size-8 hover:scale-110 transition duration-300 ease-in-out cursor-pointer" />
-        </div>
-      ))}
+            <div className=" flex flex-col gap-2">
+              <Link href={`listings/${listing.itemID}`}>
+                <h1 className="text-gray-950 text-xl font-semibold">
+                  {listing.title}
+                </h1>
+              </Link>
+
+              <h2 className=" text-sm font-bold">{listing.location}</h2>
+              <h3 className=" text-gray-600 text-xs font-normal">
+                {listing.description}
+              </h3>
+            </div>
+            <FaRegHeart className=" size-8 hover:scale-110 transition duration-300 ease-in-out cursor-pointer" />
+          </li>
+        ))}
+      </ul>
     </ul>
   );
 };
@@ -112,7 +123,7 @@ const ListingsContainer = () => {
 export default function page() {
   return (
     <div className="flex flex-row gap-4 text-brand">
-      <div className="flex-col gap-2.5 inline-flex">
+      <div className="flex-col gap-4 inline-flex">
         <h1 className="text-2xl font-bold ">Category</h1>
         <CategoryOptions />
       </div>

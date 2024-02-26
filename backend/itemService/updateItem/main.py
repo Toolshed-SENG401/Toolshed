@@ -93,6 +93,9 @@ def handler(event, context):
         # Get the new values
         itemName = body["name"]
         description = body["description"]
+        condition = body["condition"]
+        location = body["location"]
+        tags = body["tags"]
 
         # Get the image and hashes
         raw_images = body["images"]
@@ -122,14 +125,18 @@ def handler(event, context):
         # Create a new item object
         newInfo = {
             'itemID': itemID,
-            'lenderID': lenderID,
             'itemName': itemName,
+            'condition': condition,
             'description': description,
-            'image': image_urls,
-            'imageHash': image_hashes,
+            'tags': tags,
+            'location': location,
+            'images': image_urls,
+            'imageHashes': image_hashes,
+            'lenderID': lenderID,
             'timestamp': timestamp,
             'borrowerID': None
         }
+
 
         # Update the item in the table
         response = update_item_in_table(table, newInfo)

@@ -39,6 +39,28 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
+resource "aws_iam_policy" "cloudwatch_policy" {
+  name        = "lambda-logging"
+  description = "IAM policy for logging from a lambda"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
+}
+
 resource "aws_lambda_function" "create_item_lambda" {
   filename         = "./createItem.zip"
   function_name    = "create-item-30144999"
@@ -111,11 +133,15 @@ resource "aws_dynamodb_table" "items_dynamodb_table" {
   write_capacity = 1
 
   hash_key = "itemID"
+  range_key = "timestamp"  # Sort key
 
-  # the hash_key data type is string
   attribute {
     name = "itemID"
     type = "S"
+  }
+  attribute {
+    name = "timestamp"
+    type = "N"
   }
 
 }
@@ -224,6 +250,11 @@ resource "aws_iam_policy" "parameter_store_policy" {
 
 resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
   policy_arn = aws_iam_policy.dynamodb_policy.arn
+  role       = aws_iam_role.lambda_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch_policy_attatchment" {
+  policy_arn = aws_iam_policy.cloudwatch_policy.arn
   role       = aws_iam_role.lambda_role.name
 }
 
